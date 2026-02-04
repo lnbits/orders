@@ -7,6 +7,7 @@ window.PageOrders = {
         show: false,
         data: {}
       },
+      currencyOptions: [],
 
       ordersFormDialog: {
         show: false,
@@ -200,5 +201,11 @@ window.PageOrders = {
   ///////////////////////////////////////////////////
   async created() {
     this.getOrders()
+    LNbits.api
+      .request('GET', '/api/v1/currencies')
+      .then(response => {
+        this.currencyOptions = response.data || []
+      })
+      .catch(LNbits.utils.notifyApiError)
   }
 }

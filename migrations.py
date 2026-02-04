@@ -184,3 +184,13 @@ async def m008_add_order_weight(db):
     """
 
     await db.execute("ALTER TABLE orders.orders ADD COLUMN weight TEXT;")
+
+
+async def m009_add_fiat_amount_fields(db):
+    """
+    Add fiat amount/currency to orders and fiat denomination to settings.
+    """
+
+    await db.execute("ALTER TABLE orders.orders ADD COLUMN fiat_amount REAL;")
+    await db.execute("ALTER TABLE orders.orders ADD COLUMN fiat_currency TEXT;")
+    await db.execute("ALTER TABLE orders.extension_settings ADD COLUMN fiat_denomination TEXT;")

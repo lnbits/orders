@@ -199,29 +199,50 @@
       >
         <span class="text-h5">Settings</span>
 
-        <q-input
+        <q-select
           filled
           dense
-          v-model.trim="settingsFormDialog.data.npub"
-          label="Nostr npub"
+          clearable
+          v-model="settingsFormDialog.data.fiat_denomination"
+          :options="currencyOptions"
+          label="Fiat denomination"
           hint="  (optional)"
-        ></q-input>
+        ></q-select>
 
-        <q-input
-          filled
+        <q-expansion-item
           dense
-          v-model.trim="settingsFormDialog.data.telegram"
-          label="Telegram chat ID"
-          hint="  (optional)"
-        ></q-input>
+          expand-separator
+          icon="notifications"
+          label="Notification channels"
+        >
+          <q-card>
+            <q-card-section>
+              <q-input
+                filled
+                dense
+                v-model.trim="settingsFormDialog.data.npub"
+                label="Nostr npub"
+                hint="  (optional)"
+              ></q-input>
 
-        <q-input
-          filled
-          dense
-          v-model.trim="settingsFormDialog.data.email"
-          label="Email"
-          hint="  (optional)"
-        ></q-input>
+              <q-input
+                filled
+                dense
+                v-model.trim="settingsFormDialog.data.telegram"
+                label="Telegram chat ID"
+                hint="  (optional)"
+              ></q-input>
+
+              <q-input
+                filled
+                dense
+                v-model.trim="settingsFormDialog.data.email"
+                label="Email"
+                hint="  (optional)"
+              ></q-input>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
 
         <q-expansion-item
           dense

@@ -37,6 +37,16 @@
             class="text-caption"
             v-text="formatBalance(publicPageData.amount_msat)"
           ></div>
+          <div
+            class="text-caption"
+            v-if="publicPageData.fiat_amount && publicPageData.fiat_currency"
+            v-text="
+              formatFiatAmount(
+                publicPageData.fiat_amount,
+                publicPageData.fiat_currency
+              )
+            "
+          ></div>
         </q-card-section>
         <q-card-section class="q-pa-none q-mb-md">
           <div class="text-subtitle2 q-mb-xs">Customer</div>
@@ -218,6 +228,24 @@
           <div class="print-value" v-if="printMode === 'order'">
             Amount:
             <span v-text="formatBalance(publicPageData.amount_msat)"></span>
+          </div>
+          <div
+            class="print-value"
+            v-if="
+              printMode === 'order' &&
+              publicPageData.fiat_amount &&
+              publicPageData.fiat_currency
+            "
+          >
+            Fiat amount:
+            <span
+              v-text="
+                formatFiatAmount(
+                  publicPageData.fiat_amount,
+                  publicPageData.fiat_currency
+                )
+              "
+            ></span>
           </div>
           <div
             class="print-value"

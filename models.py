@@ -17,6 +17,8 @@ class CreateOrders(BaseModel):
     paid_in_fiat: bool = False
     currency: str | None = None
     exchange_rate: float | None = None
+    fiat_amount: float | None = None
+    fiat_currency: str | None = None
     tax_included: bool | None = None
     tax_value: float | None = None
     items: list[dict] = Field(default_factory=list)
@@ -45,6 +47,8 @@ class Orders(BaseModel):
     paid_in_fiat: bool = False
     currency: str | None = None
     exchange_rate: float | None = None
+    fiat_amount: float | None = None
+    fiat_currency: str | None = None
     tax_included: bool | None = None
     tax_value: float | None = None
     items: list[dict] = Field(default_factory=list)
@@ -69,6 +73,8 @@ class PublicOrders(BaseModel):
     paid_in_fiat: bool = False
     currency: str | None = None
     exchange_rate: float | None = None
+    fiat_amount: float | None = None
+    fiat_currency: str | None = None
     items: list[dict] = Field(default_factory=list)
     notes: dict | None = None
     address: str | None = None
@@ -116,6 +122,7 @@ class ExtensionSettings(BaseModel):
     npub: str | None
     telegram: str | None
     email: str | None
+    fiat_denomination: str | None = None
     message_order_received: str | None = "Thank you for your order please check here to see when it is shipped"
     message_order_shipped: str | None = "Your order has been shipped!"
     business_name: str | None = None

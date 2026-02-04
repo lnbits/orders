@@ -13,6 +13,7 @@ from lnbits.decorators import (
     parse_filters,
 )
 from lnbits.helpers import generate_filter_params_openapi
+from lnbits.utils.exchange_rates import allowed_currencies, satoshis_amount_as_fiat
 from pydantic import BaseModel
 
 from .crud import (
@@ -73,12 +74,26 @@ async def api_create_orders(
     account_id: AccountId = Depends(check_account_id_exists),
     base_url: str | None = Query(None),
 ) -> Orders:
+    settings = await get_settings(account_id.id)
+    fiat_currency = (settings.fiat_denomination or "").strip().upper()
+    if fiat_currency and fiat_currency in allowed_currencies() and not data.fiat_amount and not data.fiat_currency:
+        amount_sats = (data.amount_msat or 0) / 1000
+        try:
+            fiat_amount = await satoshis_amount_as_fiat(amount_sats, fiat_currency)
+            data = CreateOrders(
+                **{
+                    **data.dict(),
+                    "fiat_amount": round(fiat_amount, 2),
+                    "fiat_currency": fiat_currency,
+                }
+            )
+        except Exception:
+            pass
     if not getattr(data, "weight", None):
         weight_label = _calculate_weight_label(data.items)
         if weight_label:
             data = CreateOrders(**{**data.dict(), "weight": weight_label})
     orders = await create_orders(account_id.id, data)
-    settings = await get_settings(account_id.id)
     url = base_url or str(request.base_url)
     await notify_new_order(settings, orders, base_url=url)
     await notify_order_received(settings, orders, url)

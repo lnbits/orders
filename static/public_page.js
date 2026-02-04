@@ -58,6 +58,12 @@ window.PageOrdersPublic = {
     formatBalance(amountMsat) {
       return LNbits.utils.formatBalance((amountMsat || 0) / 1000)
     },
+    formatFiatAmount(amount, currency) {
+      if (amount === null || amount === undefined || !currency) return ''
+      const value = Number(amount)
+      if (Number.isNaN(value)) return ''
+      return LNbits.utils.formatCurrency(value.toFixed(2), currency)
+    },
     formatDate(value) {
       if (!value) return ''
       let normalized = String(value)
