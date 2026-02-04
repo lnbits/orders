@@ -20,6 +20,7 @@ from .crud import (
     delete_orders,
     get_orders,
     get_orders_by_id,
+    get_orders_by_payment_hash,
     get_orders_paginated,
     update_orders,
 )
@@ -138,6 +139,10 @@ class UpdateOrderShipping(BaseModel):
     shipped: bool
 
 
+class UpdateOrderPaid(BaseModel):
+    paid: bool
+
+
 @orders_api_router.delete(
     "/api/v1/orders/{orders_id}",
     name="Delete Orders",
@@ -183,6 +188,32 @@ async def api_update_order_shipping(
         await notify_order_shipped(
             settings, updated, str(request.base_url) if request else None
         )
+    return updated
+
+
+@orders_api_router.put(
+    "/api/v1/orders/payment/{payment_hash}/paid",
+    name="Update Order Paid",
+    summary="Update paid status for an order by payment hash.",
+    response_description="The updated order.",
+    response_model=Orders,
+)
+async def api_update_order_paid(
+    payment_hash: str,
+    data: UpdateOrderPaid,
+    account_id: AccountId = Depends(check_account_id_exists),
+) -> Orders:
+    orders = await get_orders_by_payment_hash(account_id.id, payment_hash)
+    if not orders:
+        raise HTTPException(HTTPStatus.NOT_FOUND, "Orders not found.")
+    updated = Orders(
+        **{
+            **orders.dict(),
+            "paid": data.paid,
+            "updated_at": datetime.now(timezone.utc),
+        }
+    )
+    updated = await update_orders(updated)
     return updated
 
 

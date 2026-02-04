@@ -48,6 +48,19 @@ async def get_orders_by_id(
         Orders,
     )
 
+async def get_orders_by_payment_hash(
+    user_id: str,
+    payment_hash: str,
+) -> Orders | None:
+    return await db.fetchone(
+        """
+            SELECT * FROM orders.orders
+            WHERE payment_hash = :payment_hash AND user_id = :user_id
+        """,
+        {"payment_hash": payment_hash, "user_id": user_id},
+        Orders,
+    )
+
 
 async def get_orders_ids_by_user(
     user_id: str,
