@@ -13,7 +13,6 @@ def orders_renderer():
     return template_renderer(["orders/templates"])
 
 
-
 # Backend admin page
 orders_generic_router.add_api_route("/", methods=["GET"], endpoint=index, dependencies=[Depends(check_account_exists)])
 

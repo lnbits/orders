@@ -4,6 +4,7 @@ from lnbits.core.models import Payment
 from lnbits.tasks import register_invoice_listener
 from loguru import logger
 
+
 async def wait_for_paid_invoices():
     invoice_queue = asyncio.Queue()
     register_invoice_listener(invoice_queue, "ext_orders")
