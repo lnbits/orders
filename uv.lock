@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.10, <3.13"
 
 [[package]]
@@ -681,39 +681,6 @@ wheels = [
 ]
 
 [[package]]
-name = "extension-builder-stub"
-version = "0.1.0"
-source = { virtual = "." }
-dependencies = [
-    { name = "lnbits" },
-]
-
-[package.dev-dependencies]
-dev = [
-    { name = "black" },
-    { name = "mypy" },
-    { name = "pre-commit" },
-    { name = "pytest" },
-    { name = "pytest-asyncio" },
-    { name = "ruff" },
-    { name = "types-cffi" },
-]
-
-[package.metadata]
-requires-dist = [{ name = "lnbits", specifier = ">=1.4.0" }]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "black", specifier = ">=24.3.0" },
-    { name = "mypy", specifier = "==1.17.1" },
-    { name = "pre-commit", specifier = ">=3.2.2" },
-    { name = "pytest", specifier = ">=7.3.2" },
-    { name = "pytest-asyncio", specifier = ">=0.21.0" },
-    { name = "ruff", specifier = ">=0.3.2" },
-    { name = "types-cffi", specifier = ">=1.16.0.20240331" },
-]
-
-[[package]]
 name = "fastapi"
 version = "0.116.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1305,6 +1272,39 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/0b/5f/19930f824ffeb0ad4372da4812c50edbd1434f678c90c2733e1188edfc63/oauthlib-3.3.1.tar.gz", hash = "sha256:0f0f8aa759826a193cf66c12ea1af1637f87b9b4622d46e866952bb022e538c9", size = 185918, upload-time = "2025-06-19T22:48:08.269Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/be/9c/92789c596b8df838baa98fa71844d84283302f7604ed565dafe5a6b5041a/oauthlib-3.3.1-py3-none-any.whl", hash = "sha256:88119c938d2b8fb88561af5f6ee0eec8cc8d552b7bb1f712743136eb7523b7a1", size = 160065, upload-time = "2025-06-19T22:48:06.508Z" },
+]
+
+[[package]]
+name = "orders"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "lnbits" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "black" },
+    { name = "mypy" },
+    { name = "pre-commit" },
+    { name = "pytest" },
+    { name = "pytest-asyncio" },
+    { name = "ruff" },
+    { name = "types-cffi" },
+]
+
+[package.metadata]
+requires-dist = [{ name = "lnbits", specifier = ">=1.4.0" }]
+
+[package.metadata.requires-dev]
+dev = [
+    { name = "black", specifier = ">=24.3.0" },
+    { name = "mypy", specifier = "==1.17.1" },
+    { name = "pre-commit", specifier = ">=3.2.2" },
+    { name = "pytest", specifier = ">=7.3.2" },
+    { name = "pytest-asyncio", specifier = ">=0.21.0" },
+    { name = "ruff", specifier = ">=0.3.2" },
+    { name = "types-cffi", specifier = ">=1.16.0.20240331" },
 ]
 
 [[package]]

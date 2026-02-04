@@ -121,4 +121,3 @@ async def update_extension_settings(user_id: str, data: ExtensionSettings) -> Ex
     settings = UserExtensionSettings(**data.dict(), id=user_id)
     await db.update("orders.extension_settings", settings)
     return settings
-

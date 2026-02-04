@@ -28,12 +28,10 @@ from .models import (
     OrdersFilters,
     PublicOrders,
 )
-
 from .services import (
     get_settings,
     update_settings,
 )
-
 
 orders_filters = parse_filters(OrdersFilters)
 orders_api_router = APIRouter()
@@ -167,4 +165,3 @@ async def api_update_extension_settings(
         )
     user_id = "admin" if ExtensionSettings.is_admin_only() else account.id
     return await update_settings(user_id, data)
-

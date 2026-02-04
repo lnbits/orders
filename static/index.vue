@@ -1,13 +1,8 @@
 <template id="page-orders">
   <div class="row q-col-gutter-md">
     <div class="col-12 col-md-8 col-lg-7 q-gutter-y-md">
-    
-      <q-card
-        id="settingsCard"
-      >
-        <q-card-section
-          class=""
-        >
+      <q-card id="settingsCard">
+        <q-card-section class="">
           <div class="row">
             <div class="col">
               <span class="text-h5">Orders</span>
@@ -25,18 +20,12 @@
           </div>
         </q-card-section>
       </q-card>
-    
 
       <div class="q-mt-lg">
         <span class="text-h5">Orders</span>
       </div>
-      <q-card
-        id="ordersCard"
-        class="q-mt-xs"
-      >
-        <q-card-section
-          class=""
-        >
+      <q-card id="ordersCard" class="q-mt-xs">
+        <q-card-section class="">
           <div class="row items-center no-wrap q-mb-md">
             <div class="col">
               <q-input
@@ -60,7 +49,6 @@
               </q-input>
             </div>
             <div class="col-auto">
-              
               <q-btn
                 flat
                 color="grey"
@@ -92,7 +80,6 @@
             <template v-slot:body="props">
               <q-tr :props="props">
                 <q-td auto-width>
-                  
                   <q-btn
                     flat
                     dense
@@ -105,7 +92,7 @@
                     class="q-mr-sm"
                     ><q-tooltip>Open public page</q-tooltip></q-btn
                   >
-                   
+
                   <q-btn
                     flat
                     dense
@@ -134,7 +121,7 @@
         </q-card-section>
       </q-card>
     </div>
-    
+
     <div class="col-12 col-md-4 col-lg-5 q-gutter-y-md">
       <q-card>
         <q-card-section>
@@ -166,7 +153,6 @@
         </q-card-section>
       </q-card>
     </div>
-    
 
     <!--/////////////////////////////////////////////////-->
     <!--//////////////FORM DIALOG////////////////////////-->
@@ -178,31 +164,31 @@
         class="q-pa-lg q-pt-xl lnbits__dialog-card q-col-gutter-md"
       >
         <span class="text-h5">Settings</span>
-       
-<q-input
-  filled
-  dense
-  v-model.trim="settingsFormDialog.data.npub"
-  label="Nostr npub"
-  hint="  (optional)"
-></q-input>
-  
-<q-input
-  filled
-  dense
-  v-model.trim="settingsFormDialog.data.telegram"
-  label="Telegram chat ID"
-  hint="  (optional)"
-></q-input>
-  
-<q-input
-  filled
-  dense
-  v-model.trim="settingsFormDialog.data.email"
-  label="Email"
-  hint="  (optional)"
-></q-input>
- 
+
+        <q-input
+          filled
+          dense
+          v-model.trim="settingsFormDialog.data.npub"
+          label="Nostr npub"
+          hint="  (optional)"
+        ></q-input>
+
+        <q-input
+          filled
+          dense
+          v-model.trim="settingsFormDialog.data.telegram"
+          label="Telegram chat ID"
+          hint="  (optional)"
+        ></q-input>
+
+        <q-input
+          filled
+          dense
+          v-model.trim="settingsFormDialog.data.email"
+          label="Email"
+          hint="  (optional)"
+        ></q-input>
+
         <div class="row q-mt-lg">
           <q-btn
             @click="updateSettings"
@@ -217,7 +203,5 @@
         </div>
       </q-card>
     </q-dialog>
-
-
   </div>
 </template>

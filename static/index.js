@@ -10,22 +10,49 @@ window.PageOrders = {
 
       ordersFormDialog: {
         show: false,
-        data: {
-          
-        }
+        data: {}
       },
       ordersList: [],
       ordersTable: {
         search: '',
         loading: false,
         columns: [
-          {"name": "source", "align": "left", "label": "Source", "field": "source", "sortable": true},
-          {"name": "tpos_name", "align": "left", "label": "TPoS", "field": "tpos_name", "sortable": true},
-          {"name": "amount_msat", "align": "left", "label": "Amount", "field": "amount_msat", "sortable": true},
-          {"name": "payment_hash", "align": "left", "label": "Payment Hash", "field": "payment_hash", "sortable": true},
-          {"name": "created_at", "align": "left", "label": "Created", "field": "created_at", "sortable": true},
-          {"name": "id", "align": "left", "label": "ID", "field": "id", "sortable": true},
-          
+          {
+            name: 'source',
+            align: 'left',
+            label: 'Source',
+            field: 'source',
+            sortable: true
+          },
+          {
+            name: 'tpos_name',
+            align: 'left',
+            label: 'TPoS',
+            field: 'tpos_name',
+            sortable: true
+          },
+          {
+            name: 'amount_msat',
+            align: 'left',
+            label: 'Amount',
+            field: 'amount_msat',
+            sortable: true
+          },
+          {
+            name: 'payment_hash',
+            align: 'left',
+            label: 'Payment Hash',
+            field: 'payment_hash',
+            sortable: true
+          },
+          {
+            name: 'created_at',
+            align: 'left',
+            label: 'Created',
+            field: 'created_at',
+            sortable: true
+          },
+          {name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true}
         ],
         pagination: {
           sortBy: 'created_at',
@@ -52,23 +79,16 @@ window.PageOrders = {
   methods: {
     //////////////// Settings ////////////////////////
     async updateSettings() {
-      
       try {
         const data = {...this.settingsFormDialog.data}
 
-        await LNbits.api.request(
-          'PUT',
-          '/orders/api/v1/settings',
-          null,
-          data
-        )
+        await LNbits.api.request('PUT', '/orders/api/v1/settings', null, data)
         this.settingsFormDialog.show = false
       } catch (error) {
         LNbits.utils.notifyApiError(error)
       }
     },
     async getSettings() {
-      
       try {
         const {data} = await LNbits.api.request(
           'GET',
@@ -85,15 +105,10 @@ window.PageOrders = {
       this.settingsFormDialog.show = true
     },
 
-
     async getOrders(props) {
-      
       try {
         this.ordersTable.loading = true
-        const params = LNbits.utils.prepareFilterQuery(
-          this.ordersTable,
-          props
-        )
+        const params = LNbits.utils.prepareFilterQuery(this.ordersTable, props)
         const {data} = await LNbits.api.request(
           'GET',
           `/orders/api/v1/orders/paginated?${params}`,
@@ -112,7 +127,6 @@ window.PageOrders = {
         .confirmDialog('Are you sure you want to delete this Orders?')
         .onOk(async () => {
           try {
-            
             await LNbits.api.request(
               'DELETE',
               '/orders/api/v1/orders/' + ordersId,
@@ -138,7 +152,7 @@ window.PageOrders = {
     },
     formatBalance(amountMsat) {
       return LNbits.utils.formatBalance(amountMsat / 1000)
-    },
+    }
   },
   ///////////////////////////////////////////////////
   //////LIFECYCLE FUNCTIONS RUNNING ON PAGE LOAD/////

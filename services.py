@@ -1,4 +1,5 @@
 from lnbits.core.services.notifications import send_notification
+
 from .crud import (
     create_extension_settings,
     get_extension_settings,

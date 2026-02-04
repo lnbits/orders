@@ -23,8 +23,6 @@ async def m001_extension_settings(db):
     )
 
 
-
-
 async def m002_orders(db):
     """
     Initial orders table.

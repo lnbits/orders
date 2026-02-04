@@ -19,14 +19,10 @@ def orders_renderer():
 
 
 # Backend admin page
-orders_generic_router.add_api_route(
-    "/", methods=["GET"], endpoint=index, dependencies=[Depends(check_account_exists)]
-)
+orders_generic_router.add_api_route("/", methods=["GET"], endpoint=index, dependencies=[Depends(check_account_exists)])
 
 
 # Frontend shareable page
 
 
 orders_generic_router.add_api_route("/{orders_id}", methods=["GET"], endpoint=index_public)
-
-

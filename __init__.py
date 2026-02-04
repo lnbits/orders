@@ -9,9 +9,7 @@ from .tasks import wait_for_paid_invoices
 from .views import orders_generic_router
 from .views_api import orders_api_router
 
-orders_ext: APIRouter = APIRouter(
-    prefix="/orders", tags=["Orders"]
-)
+orders_ext: APIRouter = APIRouter(prefix="/orders", tags=["Orders"])
 orders_ext.include_router(orders_generic_router)
 orders_ext.include_router(orders_api_router)
 

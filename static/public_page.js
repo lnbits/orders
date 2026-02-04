@@ -26,8 +26,7 @@ window.PageOrdersPublic = {
   },
   created: async function () {
     this.ordersId = this.$route.params.id
-    this.url =
-      window.location.origin + '/orders/' + this.ordersId
+    this.url = window.location.origin + '/orders/' + this.ordersId
     await this.fetchPublicData()
   }
 }

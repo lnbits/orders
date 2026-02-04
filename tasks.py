@@ -4,7 +4,6 @@ from lnbits.core.models import Payment
 from lnbits.tasks import register_invoice_listener
 from loguru import logger
 
-
 #######################################
 ########## RUN YOUR TASKS HERE ########
 #######################################

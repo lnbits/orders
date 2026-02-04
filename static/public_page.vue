@@ -15,15 +15,29 @@
         </q-card-section>
         <q-card-section class="q-pa-none q-mb-md">
           <div class="text-subtitle2 q-mb-xs">Amount</div>
-          <div class="text-caption" v-text="formatBalance(publicPageData.amount_msat)"></div>
+          <div
+            class="text-caption"
+            v-text="formatBalance(publicPageData.amount_msat)"
+          ></div>
         </q-card-section>
         <q-card-section class="q-pa-none q-mb-md">
           <div class="text-subtitle2 q-mb-xs">Items</div>
-          <q-list dense bordered separator v-if="publicPageData.items && publicPageData.items.length">
+          <q-list
+            dense
+            bordered
+            separator
+            v-if="publicPageData.items && publicPageData.items.length"
+          >
             <q-item v-for="(item, idx) in publicPageData.items" :key="idx">
               <q-item-section>
-                <q-item-label v-text="item.title || item.id || 'Item'"></q-item-label>
-                <q-item-label caption v-if="item.note" v-text="item.note"></q-item-label>
+                <q-item-label
+                  v-text="item.title || item.id || 'Item'"
+                ></q-item-label>
+                <q-item-label
+                  caption
+                  v-if="item.note"
+                  v-text="item.note"
+                ></q-item-label>
               </q-item-section>
               <q-item-section side>
                 <q-item-label v-text="item.quantity || 1"></q-item-label>
@@ -38,7 +52,9 @@
       <q-card>
         <q-card-section>
           <h6 class="q-mb-sm q-mt-none">
-            <span v-text="publicPageData.tpos_name || publicPageData.source"></span>
+            <span
+              v-text="publicPageData.tpos_name || publicPageData.source"
+            ></span>
           </h6>
           <p class="q-my-none">
             <span v-text="publicPageData.created_at"></span>

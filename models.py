@@ -96,4 +96,3 @@ class ExtensionSettings(BaseModel):
 
 class UserExtensionSettings(ExtensionSettings):
     id: str
-
