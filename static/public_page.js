@@ -7,7 +7,8 @@ window.PageOrdersPublic = {
       ordersId: '',
       publicPageData: {},
       isOwner: false,
-      printMode: null
+      printMode: null,
+      qrSrc: ''
     }
   },
   methods: {
@@ -39,7 +40,20 @@ window.PageOrdersPublic = {
     async printLabel() {
       this.printMode = 'label'
       await this.$nextTick()
+      await this.waitForLabelAssets()
       setTimeout(() => window.print(), 50)
+    },
+    async waitForLabelAssets() {
+      await this.$nextTick()
+      const img = document.querySelector('.label-qr')
+      if (!img) return
+      if (img.complete && img.naturalWidth > 0) return
+      await new Promise(resolve => {
+        const done = () => resolve()
+        img.addEventListener('load', done, {once: true})
+        img.addEventListener('error', done, {once: true})
+        setTimeout(done, 500)
+      })
     },
     formatBalance(amountMsat) {
       return LNbits.utils.formatBalance((amountMsat || 0) / 1000)
@@ -59,6 +73,9 @@ window.PageOrdersPublic = {
   created: async function () {
     this.ordersId = this.$route.params.id
     this.url = window.location.origin + '/orders/' + this.ordersId
+    this.qrSrc = `${window.location.origin}/api/v1/qrcode?data=${encodeURIComponent(
+      this.url
+    )}`
     await this.fetchPublicData()
     await this.checkOwner()
     window.addEventListener('afterprint', () => {

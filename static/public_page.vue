@@ -181,8 +181,8 @@
             </div>
           </div>
           <div class="label-section label-barcode">
-            <div class="barcode-placeholder"></div>
-            <div class="barcode-text">Barcode placeholder</div>
+            <img class="label-qr" :src="qrSrc" alt="Order QR" v-if="qrSrc" />
+            <div class="barcode-text">Scan for order</div>
           </div>
         </div>
       </template>
@@ -284,6 +284,8 @@
     padding: 16px !important;
     font-family: Arial, sans-serif;
     color: #111;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
   .print-header {
     text-align: center;
@@ -367,8 +369,8 @@
     align-items: flex-start;
   }
   .label-badge {
-    background: #000;
-    color: #fff;
+    background: #000 !important;
+    color: #fff !important;
     padding: 4px 10px;
     border-radius: 8px;
     font-size: 11px;
@@ -376,6 +378,8 @@
     letter-spacing: 0.08em;
     font-weight: 700;
     white-space: nowrap;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
   .label-title {
     font-size: 11px;
@@ -419,6 +423,13 @@
     height: 70px;
     border: 2px dashed #000;
     margin: 6px auto 8px;
+  }
+  .label-qr {
+    width: 160px;
+    height: 160px;
+    display: block;
+    margin: 0 auto 8px;
+    object-fit: contain;
   }
   .barcode-text {
     font-size: 10px;
