@@ -29,6 +29,7 @@ from .models import (
     ExtensionSettings,
     Orders,
     OrdersFilters,
+    OrdersResponse,
     PublicOrders,
 )
 from .services import (
@@ -66,7 +67,11 @@ def _calculate_weight_label(items: list[dict] | None) -> str | None:
 
 
 ############################# Orders #############################
-@orders_api_router.post("/api/v1/orders", status_code=HTTPStatus.CREATED)
+@orders_api_router.post(
+    "/api/v1/orders",
+    status_code=HTTPStatus.CREATED,
+    response_model=OrdersResponse,
+)
 async def api_create_orders(
     data: CreateOrders,
     request: Request,
@@ -99,7 +104,11 @@ async def api_create_orders(
     return orders
 
 
-@orders_api_router.put("/api/v1/orders/{orders_id}", status_code=HTTPStatus.CREATED)
+@orders_api_router.put(
+    "/api/v1/orders/{orders_id}",
+    status_code=HTTPStatus.CREATED,
+    response_model=OrdersResponse,
+)
 async def api_update_orders(
     orders_id: str,
     data: CreateOrders,
@@ -120,7 +129,7 @@ async def api_update_orders(
     summary="get paginated list of orders",
     response_description="list of orders",
     openapi_extra=generate_filter_params_openapi(OrdersFilters),
-    response_model=Page[Orders],
+    response_model=Page[OrdersResponse],
 )
 async def api_get_orders_paginated(
     account_id: AccountId = Depends(check_account_id_exists),
@@ -138,7 +147,7 @@ async def api_get_orders_paginated(
     name="Get Orders",
     summary="Get the orders with this id.",
     response_description="An orders or 404 if not found",
-    response_model=Orders,
+    response_model=OrdersResponse,
 )
 async def api_get_orders(
     orders_id: str,
@@ -201,7 +210,7 @@ async def api_delete_orders(
     name="Update Order Shipping",
     summary="Update shipped status for an order.",
     response_description="The updated order.",
-    response_model=Orders,
+    response_model=OrdersResponse,
 )
 async def api_update_order_shipping(
     orders_id: str,
@@ -231,7 +240,7 @@ async def api_update_order_shipping(
     name="Update Order Paid",
     summary="Update paid status for an order by payment hash.",
     response_description="The updated order.",
-    response_model=Orders,
+    response_model=OrdersResponse,
 )
 async def api_update_order_paid(
     payment_hash: str,

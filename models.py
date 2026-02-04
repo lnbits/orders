@@ -64,6 +64,36 @@ class Orders(BaseModel):
     updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
+class OrdersResponse(BaseModel):
+    id: str
+    source: str
+    tpos_id: str | None = None
+    tpos_name: str | None = None
+    payment_hash: str
+    checking_id: str
+    amount_msat: int
+    fee_msat: int
+    memo: str | None = None
+    paid_in_fiat: bool = False
+    currency: str | None = None
+    exchange_rate: float | None = None
+    fiat_amount: float | None = None
+    fiat_currency: str | None = None
+    tax_included: bool | None = None
+    tax_value: float | None = None
+    items: list[dict] = Field(default_factory=list)
+    notes: dict | None = None
+    address: str | None = None
+    email: EmailStr | None = None
+    phone: str | None = None
+    npub: str | None = None
+    weight: str | None = None
+    paid: bool = False
+    shipped: bool = False
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 class PublicOrders(BaseModel):
     id: str
     source: str
