@@ -152,3 +152,37 @@ async def m005_drop_not_needed(db):
     """
 
     await db.execute("DROP TABLE orders.not_needed")
+
+
+async def m006_add_order_customer_fields(db):
+    """
+    Add customer and fulfillment fields to orders.
+    """
+
+    await db.execute("ALTER TABLE orders.orders ADD COLUMN address TEXT;")
+    await db.execute("ALTER TABLE orders.orders ADD COLUMN email TEXT;")
+    await db.execute("ALTER TABLE orders.orders ADD COLUMN phone TEXT;")
+    await db.execute("ALTER TABLE orders.orders ADD COLUMN npub TEXT;")
+    await db.execute("ALTER TABLE orders.orders ADD COLUMN paid BOOLEAN DEFAULT false;")
+    await db.execute(
+        "ALTER TABLE orders.orders ADD COLUMN shipped BOOLEAN DEFAULT false;"
+    )
+
+
+async def m007_add_settings_fields(db):
+    """
+    Add messaging and business fields to settings.
+    """
+
+    await db.execute(
+        "ALTER TABLE orders.extension_settings ADD COLUMN message_order_received TEXT;"
+    )
+    await db.execute(
+        "ALTER TABLE orders.extension_settings ADD COLUMN message_order_shipped TEXT;"
+    )
+    await db.execute(
+        "ALTER TABLE orders.extension_settings ADD COLUMN business_name TEXT;"
+    )
+    await db.execute(
+        "ALTER TABLE orders.extension_settings ADD COLUMN business_address TEXT;"
+    )

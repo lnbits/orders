@@ -1,7 +1,8 @@
 # Description: This file contains the extensions API endpoints.
+from datetime import datetime, timezone
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Query, Request
 from fastapi.exceptions import HTTPException
 from lnbits.core.models import SimpleStatus, User
 from lnbits.core.models.users import AccountId
@@ -12,6 +13,7 @@ from lnbits.decorators import (
     parse_filters,
 )
 from lnbits.helpers import generate_filter_params_openapi
+from pydantic import BaseModel
 
 from .crud import (
     create_orders,
@@ -30,6 +32,8 @@ from .models import (
 )
 from .services import (
     get_settings,
+    notify_order_received,
+    notify_order_shipped,
     update_settings,
 )
 
@@ -41,9 +45,17 @@ orders_api_router = APIRouter()
 @orders_api_router.post("/api/v1/orders", status_code=HTTPStatus.CREATED)
 async def api_create_orders(
     data: CreateOrders,
+    request: Request,
     account_id: AccountId = Depends(check_account_id_exists),
+    base_url: str | None = Query(None),
 ) -> Orders:
     orders = await create_orders(account_id.id, data)
+    settings = await get_settings(account_id.id)
+    url = base_url or str(request.base_url)
+    await notify_new_order(settings, orders, base_url=url)
+    await notify_order_received(
+        settings, orders, url
+    )
     return orders
 
 
@@ -100,6 +112,8 @@ async def api_get_orders(
     return orders
 
 
+
+
 @orders_api_router.get(
     "/api/v1/orders/{orders_id}/public",
     name="Get Public Orders",
@@ -113,7 +127,15 @@ async def api_get_public_orders(orders_id: str) -> PublicOrders:
     if not orders:
         raise HTTPException(HTTPStatus.NOT_FOUND, "Orders not found.")
 
-    return PublicOrders(**orders.dict())
+    settings = await get_settings(orders.user_id)
+    payload = orders.dict()
+    payload["business_name"] = settings.business_name
+    payload["business_address"] = settings.business_address
+    return PublicOrders(**payload)
+
+
+class UpdateOrderShipping(BaseModel):
+    shipped: bool
 
 
 @orders_api_router.delete(
@@ -130,6 +152,38 @@ async def api_delete_orders(
 
     await delete_orders(account_id.id, orders_id)
     return SimpleStatus(success=True, message="Orders Deleted")
+
+
+@orders_api_router.put(
+    "/api/v1/orders/{orders_id}/shipping",
+    name="Update Order Shipping",
+    summary="Update shipped status for an order.",
+    response_description="The updated order.",
+    response_model=Orders,
+)
+async def api_update_order_shipping(
+    orders_id: str,
+    data: UpdateOrderShipping,
+    request: Request,
+    account_id: AccountId = Depends(check_account_id_exists),
+) -> Orders:
+    orders = await get_orders(account_id.id, orders_id)
+    if not orders:
+        raise HTTPException(HTTPStatus.NOT_FOUND, "Orders not found.")
+    updated = Orders(
+        **{
+            **orders.dict(),
+            "shipped": data.shipped,
+            "updated_at": datetime.now(timezone.utc),
+        }
+    )
+    updated = await update_orders(updated)
+    if not orders.shipped and updated.shipped:
+        settings = await get_settings(account_id.id)
+        await notify_order_shipped(
+            settings, updated, str(request.base_url) if request else None
+        )
+    return updated
 
 
 ############################ Settings #############################

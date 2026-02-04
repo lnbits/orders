@@ -39,6 +39,34 @@ window.PageOrders = {
             sortable: true
           },
           {
+            name: 'email',
+            align: 'left',
+            label: 'Email',
+            field: 'email',
+            sortable: true
+          },
+          {
+            name: 'address',
+            align: 'left',
+            label: 'Address',
+            field: 'address',
+            sortable: true
+          },
+          {
+            name: 'paid',
+            align: 'left',
+            label: 'Paid',
+            field: 'paid',
+            sortable: true
+          },
+          {
+            name: 'shipped',
+            align: 'left',
+            label: 'Shipped',
+            field: 'shipped',
+            sortable: true
+          },
+          {
             name: 'payment_hash',
             align: 'left',
             label: 'Payment Hash',
@@ -137,6 +165,19 @@ window.PageOrders = {
             LNbits.utils.notifyApiError(error)
           }
         })
+    },
+    async toggleShipped(row) {
+      try {
+        await LNbits.api.request(
+          'PUT',
+          `/orders/api/v1/orders/${row.id}/shipping`,
+          null,
+          {shipped: !row.shipped}
+        )
+        await this.getOrders()
+      } catch (error) {
+        LNbits.utils.notifyApiError(error)
+      }
     },
     async exportOrdersCSV() {
       await LNbits.utils.exportCSV(
