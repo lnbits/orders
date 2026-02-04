@@ -1,0 +1,14 @@
+[
+  {
+    "path": "/orders/",
+    "name": "PageOrders",
+    "template": "/orders/static/index.vue",
+    "component": "/orders/static/index.js"
+  },
+  {
+    "path": "/orders/:id",
+    "name": "PageOrdersPublic",
+    "template": "/orders/static/public_page.vue",
+    "component": "/orders/static/public_page.js"
+  }
+]

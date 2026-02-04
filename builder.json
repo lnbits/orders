@@ -1,0 +1,197 @@
+{
+    "id": "orders",
+    "name": "Orders",
+    "stub_version": "v0.3.0",
+    "short_description": "If enabled orders from tpos and webshop will be pulled.",
+    "description": "If enabled orders from tpos and webshop will be pulled to hte extension. Optional notifications can be sent to telegram, nostr and email.",
+    "owner_data": {
+        "name": "Orders",
+        "editable": false,
+        "fields": [
+            {
+                "name": "source",
+                "type": "str",
+                "label": "",
+                "hint": "",
+                "optional": false,
+                "editable": false,
+                "searchable": true,
+                "sortable": true,
+                "fields": []
+            },
+            {
+                "name": "items",
+                "type": "json",
+                "label": "",
+                "hint": "",
+                "optional": false,
+                "editable": false,
+                "searchable": false,
+                "sortable": false,
+                "fields": [
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "",
+                        "hint": "",
+                        "optional": false,
+                        "editable": true,
+                        "searchable": true,
+                        "sortable": true,
+                        "fields": []
+                    },
+                    {
+                        "name": "quantity",
+                        "type": "int",
+                        "label": "",
+                        "hint": "",
+                        "optional": false,
+                        "editable": true,
+                        "searchable": true,
+                        "sortable": true,
+                        "fields": []
+                    },
+                    {
+                        "name": "price",
+                        "type": "int",
+                        "label": "",
+                        "hint": "",
+                        "optional": true,
+                        "editable": true,
+                        "searchable": true,
+                        "sortable": true,
+                        "fields": []
+                    },
+                    {
+                        "name": "notes",
+                        "type": "str",
+                        "label": "",
+                        "hint": "",
+                        "optional": true,
+                        "editable": true,
+                        "searchable": true,
+                        "sortable": true,
+                        "fields": []
+                    }
+                ]
+            },
+            {
+                "name": "date",
+                "type": "datetime",
+                "label": "",
+                "hint": "",
+                "optional": false,
+                "editable": false,
+                "searchable": true,
+                "sortable": true,
+                "fields": []
+            },
+            {
+                "name": "order_number",
+                "type": "int",
+                "label": "",
+                "hint": "",
+                "optional": false,
+                "editable": false,
+                "searchable": true,
+                "sortable": true,
+                "fields": []
+            },
+            {
+                "name": "sales_rep_name",
+                "type": "text",
+                "label": "",
+                "hint": "",
+                "optional": false,
+                "editable": false,
+                "searchable": true,
+                "sortable": true,
+                "fields": []
+            }
+        ]
+    },
+    "client_data": {
+        "name": "NotNeeded",
+        "editable": false,
+        "fields": [
+            {
+                "name": "ignore",
+                "type": "text",
+                "label": "",
+                "hint": "",
+                "optional": false,
+                "editable": false,
+                "searchable": true,
+                "sortable": true,
+                "fields": []
+            }
+        ]
+    },
+    "settings_data": {
+        "name": "Settings",
+        "editable": true,
+        "fields": [
+            {
+                "name": "npub",
+                "type": "str",
+                "label": "Nostr npub",
+                "hint": "",
+                "optional": true,
+                "editable": true,
+                "searchable": true,
+                "sortable": true,
+                "fields": []
+            },
+            {
+                "name": "telegram",
+                "type": "text",
+                "label": "Telegram chat ID",
+                "hint": "",
+                "optional": true,
+                "editable": true,
+                "searchable": true,
+                "sortable": true,
+                "fields": []
+            },
+            {
+                "name": "email",
+                "type": "text",
+                "label": "Email",
+                "hint": "",
+                "optional": true,
+                "editable": true,
+                "searchable": true,
+                "sortable": true,
+                "fields": []
+            }
+        ],
+        "enabled": true,
+        "type": "user"
+    },
+    "public_page": {
+        "has_public_page": true,
+        "owner_data_fields": {
+            "name": "",
+            "description": ""
+        },
+        "client_data_fields": {
+            "public_inputs": []
+        },
+        "action_fields": {
+            "generate_action": false,
+            "generate_payment_logic": false,
+            "wallet_id": "",
+            "currency": "",
+            "amount": "",
+            "amount_source": null,
+            "paid_flag": ""
+        }
+    },
+    "preview_action": {
+        "is_preview_mode": false,
+        "is_settings_preview": false,
+        "is_owner_data_preview": false,
+        "is_client_data_preview": false,
+        "is_public_page_preview": false
+    }
+}
