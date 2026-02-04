@@ -17,7 +17,7 @@ db = Database("ext_orders")
 
 ########################### Orders ############################
 async def create_orders(user_id: str, data: CreateOrders) -> Orders:
-    orders = Orders(**data.dict(), id=urlsafe_short_hash(), user_id=user_id)
+    orders = Orders(**data.dict(exclude_none=True), id=urlsafe_short_hash(), user_id=user_id)
     await db.insert("orders.orders", orders)
     return orders
 
@@ -47,6 +47,7 @@ async def get_orders_by_id(
         {"id": orders_id},
         Orders,
     )
+
 
 async def get_orders_by_payment_hash(
     user_id: str,

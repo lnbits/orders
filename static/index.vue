@@ -85,13 +85,17 @@
                     dense
                     size="xs"
                     :color="props.row.shipped ? 'green' : 'grey'"
-                    :icon="props.row.shipped ? 'local_shipping' : 'local_shipping'"
+                    :icon="
+                      props.row.shipped ? 'local_shipping' : 'local_shipping'
+                    "
                     @click.stop="toggleShipped(props.row)"
                     class="q-mr-sm"
                   >
                     <q-tooltip>
                       <span
-                        v-text="props.row.shipped ? 'Mark unshipped' : 'Mark shipped'"
+                        v-text="
+                          props.row.shipped ? 'Mark unshipped' : 'Mark shipped'
+                        "
                       ></span>
                     </q-tooltip>
                   </q-btn>
@@ -127,7 +131,9 @@
                     <span v-text="formatBalance(col.value)"></span>
                   </div>
                   <div v-else-if="col.field == 'paid'">
-                    <q-badge :color="col.value ? 'green' : 'grey'" align="middle"
+                    <q-badge
+                      :color="col.value ? 'green' : 'grey'"
+                      align="middle"
                       >${ col.value ? 'Yes' : 'No' }</q-badge
                     >
                   </div>
@@ -193,81 +199,86 @@
       >
         <span class="text-h5">Settings</span>
 
-<q-input
-  filled
-  dense
-  v-model.trim="settingsFormDialog.data.npub"
-  label="Nostr npub"
-  hint="  (optional)"
-></q-input>
-  
-<q-input
-  filled
-  dense
-  v-model.trim="settingsFormDialog.data.telegram"
-  label="Telegram chat ID"
-  hint="  (optional)"
-></q-input>
-  
-<q-input
-  filled
-  dense
-  v-model.trim="settingsFormDialog.data.email"
-  label="Email"
-  hint="  (optional)"
-></q-input>
+        <q-input
+          filled
+          dense
+          v-model.trim="settingsFormDialog.data.npub"
+          label="Nostr npub"
+          hint="  (optional)"
+        ></q-input>
 
-<q-expansion-item
-  dense
-  expand-separator
-  icon="mark_email_read"
-  label="Customer messages"
->
-  <q-card>
-    <q-card-section>
-      <q-input
-        filled
-        dense
-        v-model.trim="settingsFormDialog.data.message_order_received"
-        label="Message to customer on order received"
-        hint="  (optional)"
-        type="textarea"
-      ></q-input>
+        <q-input
+          filled
+          dense
+          v-model.trim="settingsFormDialog.data.telegram"
+          label="Telegram chat ID"
+          hint="  (optional)"
+        ></q-input>
 
-      <q-input
-        filled
-        dense
-        v-model.trim="settingsFormDialog.data.message_order_shipped"
-        label="Message to customer when order shipped"
-        hint="  (optional)"
-        type="textarea"
-      ></q-input>
-    </q-card-section>
-  </q-card>
-</q-expansion-item>
+        <q-input
+          filled
+          dense
+          v-model.trim="settingsFormDialog.data.email"
+          label="Email"
+          hint="  (optional)"
+        ></q-input>
 
-<q-expansion-item dense expand-separator icon="store" label="Business details">
-  <q-card>
-    <q-card-section>
-      <q-input
-        filled
-        dense
-        v-model.trim="settingsFormDialog.data.business_name"
-        label="Business name"
-        hint="  (optional)"
-      ></q-input>
+        <q-expansion-item
+          dense
+          expand-separator
+          icon="mark_email_read"
+          label="Customer messages"
+        >
+          <q-card>
+            <q-card-section>
+              <q-input
+                filled
+                dense
+                v-model.trim="settingsFormDialog.data.message_order_received"
+                label="Message to customer on order received"
+                hint="  (optional)"
+                type="textarea"
+              ></q-input>
 
-      <q-input
-        filled
-        dense
-        v-model.trim="settingsFormDialog.data.business_address"
-        label="Business address"
-        hint="  (optional)"
-        type="textarea"
-      ></q-input>
-    </q-card-section>
-  </q-card>
-</q-expansion-item>
+              <q-input
+                filled
+                dense
+                v-model.trim="settingsFormDialog.data.message_order_shipped"
+                label="Message to customer when order shipped"
+                hint="  (optional)"
+                type="textarea"
+              ></q-input>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+
+        <q-expansion-item
+          dense
+          expand-separator
+          icon="store"
+          label="Business details"
+        >
+          <q-card>
+            <q-card-section>
+              <q-input
+                filled
+                dense
+                v-model.trim="settingsFormDialog.data.business_name"
+                label="Business name"
+                hint="  (optional)"
+              ></q-input>
+
+              <q-input
+                filled
+                dense
+                v-model.trim="settingsFormDialog.data.business_address"
+                label="Business address"
+                hint="  (optional)"
+                type="textarea"
+              ></q-input>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
 
         <div class="row q-mt-lg">
           <q-btn

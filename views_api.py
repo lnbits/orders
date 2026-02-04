@@ -33,6 +33,7 @@ from .models import (
 )
 from .services import (
     get_settings,
+    notify_new_order,
     notify_order_received,
     notify_order_shipped,
     update_settings,
@@ -40,6 +41,28 @@ from .services import (
 
 orders_filters = parse_filters(OrdersFilters)
 orders_api_router = APIRouter()
+
+
+def _calculate_weight_label(items: list[dict] | None) -> str | None:
+    if not items:
+        return None
+    total_grams = 0
+    for item in items:
+        if not isinstance(item, dict):
+            continue
+        qty = item.get("quantity") or 0
+        grams = item.get("weight_grams") or 0
+        try:
+            qty_val = int(qty)
+        except Exception:
+            qty_val = 0
+        try:
+            grams_val = int(grams)
+        except Exception:
+            grams_val = 0
+        if qty_val > 0 and grams_val > 0:
+            total_grams += qty_val * grams_val
+    return f"{total_grams} g" if total_grams > 0 else None
 
 
 ############################# Orders #############################
@@ -50,13 +73,15 @@ async def api_create_orders(
     account_id: AccountId = Depends(check_account_id_exists),
     base_url: str | None = Query(None),
 ) -> Orders:
+    if not getattr(data, "weight", None):
+        weight_label = _calculate_weight_label(data.items)
+        if weight_label:
+            data = CreateOrders(**{**data.dict(), "weight": weight_label})
     orders = await create_orders(account_id.id, data)
     settings = await get_settings(account_id.id)
     url = base_url or str(request.base_url)
     await notify_new_order(settings, orders, base_url=url)
-    await notify_order_received(
-        settings, orders, url
-    )
+    await notify_order_received(settings, orders, url)
     return orders
 
 
@@ -111,8 +136,6 @@ async def api_get_orders(
         raise HTTPException(HTTPStatus.NOT_FOUND, "Orders not found.")
 
     return orders
-
-
 
 
 @orders_api_router.get(
@@ -185,9 +208,7 @@ async def api_update_order_shipping(
     updated = await update_orders(updated)
     if not orders.shipped and updated.shipped:
         settings = await get_settings(account_id.id)
-        await notify_order_shipped(
-            settings, updated, str(request.base_url) if request else None
-        )
+        await notify_order_shipped(settings, updated, str(request.base_url) if request else None)
     return updated
 
 

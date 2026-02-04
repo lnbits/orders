@@ -25,6 +25,7 @@ class CreateOrders(BaseModel):
     email: EmailStr | None = None
     phone: str | None = None
     npub: str | None = None
+    weight: str | None = None
     paid: bool = False
     shipped: bool = False
     created_at: datetime | None = None
@@ -52,6 +53,7 @@ class Orders(BaseModel):
     email: EmailStr | None = None
     phone: str | None = None
     npub: str | None = None
+    weight: str | None = None
     paid: bool = False
     shipped: bool = False
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
@@ -73,6 +75,7 @@ class PublicOrders(BaseModel):
     email: EmailStr | None = None
     phone: str | None = None
     npub: str | None = None
+    weight: str | None = None
     paid: bool = False
     shipped: bool = False
     business_name: str | None = None
@@ -113,9 +116,7 @@ class ExtensionSettings(BaseModel):
     npub: str | None
     telegram: str | None
     email: str | None
-    message_order_received: str | None = (
-        "Thank you for your order please check here to see when it is shipped"
-    )
+    message_order_received: str | None = "Thank you for your order please check here to see when it is shipped"
     message_order_shipped: str | None = "Your order has been shipped!"
     business_name: str | None = None
     business_address: str | None = None

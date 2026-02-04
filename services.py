@@ -14,6 +14,7 @@ def _parse_notify_emails(raw: str | None) -> list[str]:
         return []
     return [email.strip() for email in raw.split(",") if email.strip()]
 
+
 def _build_order_link(base_url: str | None, order_id: str) -> str:
     if base_url:
         return f"{base_url.rstrip('/')}/orders/{order_id}"
@@ -22,7 +23,7 @@ def _build_order_link(base_url: str | None, order_id: str) -> str:
     return f"/orders/{order_id}"
 
 
-async def _notify_customer(order: Orders, message: str, base_url: str | None) -> None:
+async def _notify_customer(order: Orders, message: str | None, base_url: str | None) -> None:
     if not order.email and not order.npub:
         return
     link = _build_order_link(base_url, order.id)
@@ -36,9 +37,7 @@ async def _notify_customer(order: Orders, message: str, base_url: str | None) ->
     )
 
 
-async def notify_new_order(
-    settings: ExtensionSettings, order: Orders, base_url: str | None = None
-) -> None:
+async def notify_new_order(settings: ExtensionSettings, order: Orders, base_url: str | None = None) -> None:
     amount_sat = order.amount_msat // 1000
     link = _build_order_link(base_url, order.id)
     message = (
@@ -54,15 +53,11 @@ async def notify_new_order(
     )
 
 
-async def notify_order_received(
-    settings: ExtensionSettings, order: Orders, base_url: str | None
-) -> None:
+async def notify_order_received(settings: ExtensionSettings, order: Orders, base_url: str | None) -> None:
     await _notify_customer(order, settings.message_order_received, base_url)
 
 
-async def notify_order_shipped(
-    settings: ExtensionSettings, order: Orders, base_url: str | None
-) -> None:
+async def notify_order_shipped(settings: ExtensionSettings, order: Orders, base_url: str | None) -> None:
     await _notify_customer(order, settings.message_order_shipped, base_url)
 
 
