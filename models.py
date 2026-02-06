@@ -149,9 +149,9 @@ class OrdersFilters(FilterModel):
 
 ############################ Settings #############################
 class ExtensionSettings(BaseModel):
-    npub: str | None
-    telegram: str | None
-    email: str | None
+    npub: str | None = None
+    telegram: str | None = None
+    email: str | None = None
     fiat_denomination: str | None = None
     message_order_received: str | None = "Thank you for your order please check here to see when it is shipped"
     message_order_shipped: str | None = "Your order has been shipped!"
