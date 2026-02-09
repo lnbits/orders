@@ -6,7 +6,6 @@ window.PageOrdersPublic = {
       url: '',
       ordersId: '',
       publicPageData: {},
-      isOwner: false,
       printMode: null,
       qrSrc: ''
     }
@@ -22,14 +21,6 @@ window.PageOrdersPublic = {
       } catch (error) {
         console.warn(error)
         LNbits.utils.notifyApiError(error)
-      }
-    },
-    async checkOwner() {
-      try {
-        await LNbits.api.request('GET', '/api/v1/auth', null)
-        this.isOwner = true
-      } catch (error) {
-        this.isOwner = false
       }
     },
     async printOrder() {
@@ -83,7 +74,6 @@ window.PageOrdersPublic = {
       this.url
     )}`
     await this.fetchPublicData()
-    await this.checkOwner()
     window.addEventListener('afterprint', () => {
       this.printMode = null
     })

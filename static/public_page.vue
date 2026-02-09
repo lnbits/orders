@@ -19,7 +19,6 @@
             >Print Order</q-btn
           >
           <q-btn
-            v-if="isOwner"
             outline
             color="grey-8"
             icon="local_shipping"
