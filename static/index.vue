@@ -221,9 +221,21 @@
                 filled
                 dense
                 v-model.trim="settingsFormDialog.data.npub"
-                label="Nostr npub"
+                label="Nostr NIP-05 identifier"
                 hint="  (optional)"
-              ></q-input>
+              >
+                <template v-slot:after>
+                  <q-icon name="help_outline" size="xs">
+                    <q-tooltip class="text-left">
+                      <span>
+                        If you want to receive notifications via Nostr, enter
+                        your NIP-05 identifier here. If you dont have one, grab
+                        one from my.nostr.com
+                      </span>
+                    </q-tooltip>
+                  </q-icon>
+                </template>
+              </q-input>
 
               <q-input
                 filled
