@@ -86,7 +86,7 @@ async def api_create_orders(
             fiat_amount = await satoshis_amount_as_fiat(amount_sats, fiat_currency)
             data = CreateOrders(
                 **{
-                    **data.dict(),
+                    **data.model_dump(),
                     "fiat_amount": round(fiat_amount, 2),
                     "fiat_currency": fiat_currency,
                 }
@@ -96,7 +96,7 @@ async def api_create_orders(
     if not getattr(data, "weight", None):
         weight_label = _calculate_weight_label(data.items)
         if weight_label:
-            data = CreateOrders(**{**data.dict(), "weight": weight_label})
+            data = CreateOrders(**{**data.model_dump(), "weight": weight_label})
     orders = await create_orders(account_id.id, data)
     url = base_url or str(request.base_url)
     await notify_new_order(settings, orders, base_url=url)
@@ -119,7 +119,7 @@ async def api_update_orders(
         raise HTTPException(HTTPStatus.NOT_FOUND, "Orders not found.")
     if orders.user_id != account_id.id:
         raise HTTPException(HTTPStatus.FORBIDDEN, "You do not own this orders.")
-    orders = await update_orders(Orders(**{**orders.dict(), **data.dict()}))
+    orders = await update_orders(Orders(**{**orders.model_dump(), **data.model_dump()}))
     return orders
 
 
@@ -175,7 +175,7 @@ async def api_get_public_orders(orders_id: str) -> PublicOrders:
         raise HTTPException(HTTPStatus.NOT_FOUND, "Orders not found.")
 
     settings = await get_settings(orders.user_id)
-    payload = orders.dict()
+    payload = orders.model_dump()
     payload["business_name"] = settings.business_name
     payload["business_address"] = settings.business_address
     return PublicOrders(**payload)
@@ -223,7 +223,7 @@ async def api_update_order_shipping(
         raise HTTPException(HTTPStatus.NOT_FOUND, "Orders not found.")
     updated = Orders(
         **{
-            **orders.dict(),
+            **orders.model_dump(),
             "shipped": data.shipped,
             "updated_at": datetime.now(timezone.utc),
         }
@@ -252,7 +252,7 @@ async def api_update_order_paid(
         raise HTTPException(HTTPStatus.NOT_FOUND, "Orders not found.")
     updated = Orders(
         **{
-            **orders.dict(),
+            **orders.model_dump(),
             "paid": data.paid,
             "updated_at": datetime.now(timezone.utc),
         }
