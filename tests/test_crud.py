@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from typing import cast
 from uuid import uuid4
 
 import pytest
@@ -44,7 +45,7 @@ async def test_create_and_get_orders():
     assert orders_one.id is not None
     assert orders_one.user_id == user_id
 
-    orders_one = await get_orders(user_id, orders_one.id)
+    orders_one = cast(Orders, await get_orders(user_id, orders_one.id))
     assert orders_one.id is not None
     assert orders_one.user_id == user_id
     assert orders_one.source == data.source
@@ -117,7 +118,7 @@ async def test_update_orders():
     assert orders_one.id is not None
     assert orders_one.user_id == user_id
 
-    orders_one = await get_orders(user_id, orders_one.id)
+    orders_one = cast(Orders, await get_orders(user_id, orders_one.id))
     assert orders_one.id is not None
     assert orders_one.user_id == user_id
     assert orders_one.source == data.source
@@ -147,7 +148,7 @@ async def test_update_orders():
     orders_updated = Orders(**{**orders_one.dict(), **data_updated.dict()})
 
     await update_orders(orders_updated)
-    orders_one = await get_orders_by_id(orders_one.id)
+    orders_one = cast(Orders, await get_orders_by_id(orders_one.id))
     assert orders_one.source == orders_updated.source
     assert orders_one.items == orders_updated.items
     assert orders_one.payment_hash == orders_updated.payment_hash

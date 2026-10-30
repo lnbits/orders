@@ -17,7 +17,7 @@ db = Database("ext_orders")
 
 ########################### Orders ############################
 async def create_orders(user_id: str, data: CreateOrders) -> Orders:
-    orders = Orders(**data.dict(exclude_none=True), id=urlsafe_short_hash(), user_id=user_id)
+    orders = Orders(**data.model_dump(exclude_none=True), id=urlsafe_short_hash(), user_id=user_id)
     await db.insert("orders.orders", orders)
     return orders
 
@@ -113,7 +113,7 @@ async def delete_orders(user_id: str, orders_id: str) -> None:
 
 ############################ Settings #############################
 async def create_extension_settings(user_id: str, data: ExtensionSettings) -> ExtensionSettings:
-    settings = UserExtensionSettings(**data.dict(), id=user_id)
+    settings = UserExtensionSettings(**data.model_dump(), id=user_id)
     await db.insert("orders.extension_settings", settings)
     return settings
 
@@ -132,6 +132,6 @@ async def get_extension_settings(
 
 
 async def update_extension_settings(user_id: str, data: ExtensionSettings) -> ExtensionSettings:
-    settings = UserExtensionSettings(**data.dict(), id=user_id)
+    settings = UserExtensionSettings(**data.model_dump(), id=user_id)
     await db.update("orders.extension_settings", settings)
     return settings
