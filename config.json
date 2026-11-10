@@ -1,7 +1,7 @@
 {
   "id": "orders",
   "name": "Orders",
-  "short_description": "If enabled orders from tpos and webshop will be pulled.",
+  "short_description": "If enabled orders from tpos and webshop will be pulled",
   "tile": "/orders/static/image/orders.png",
   "version": "0.2.1",
   "min_lnbits_version": "1.7.0",
